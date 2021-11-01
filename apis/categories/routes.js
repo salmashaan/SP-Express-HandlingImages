@@ -12,6 +12,6 @@ router.post("/:categoryId/products", upload.single("image"), productCreate);
 
 router.get("/", getCategories);
 
-router.get("/", categoryCreate);
+router.post("/", categoryCreate);
 
 module.exports = router;
