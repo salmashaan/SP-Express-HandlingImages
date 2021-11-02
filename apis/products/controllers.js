@@ -23,17 +23,17 @@ exports.productListFetch = async (req, res, next) => {
 exports.productDetailFetch = async (req, res, next) =>
   res.status(200).json(req.product);
 
-exports.productCreate = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
-    }
-    const newProduct = await Product.create(req.body);
-    res.status(201).json(newProduct);
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.productCreate = async (req, res, next) => {
+//   try {
+//     if (req.file) {
+//       req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
+//     }
+//     const newProduct = await Product.create(req.body);
+//     res.status(201).json(newProduct);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 exports.productUpdate = async (req, res, next) => {
   try {

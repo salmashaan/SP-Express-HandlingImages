@@ -25,7 +25,7 @@ router.param("productId", async (req, res, next, productId) => {
   }
 });
 
-router.post("/", upload.single("image"), productCreate);
+// router.post("/", upload.single("image"), productCreate);
 
 router.get("/", productListFetch);
 

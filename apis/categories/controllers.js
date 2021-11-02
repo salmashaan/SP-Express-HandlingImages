@@ -1,4 +1,5 @@
 const Category = require("../../db/models/Category");
+const Product = require("../../db/models/Product");
 
 exports.getCategories = async (req, res) => {
   try {
@@ -9,12 +10,12 @@ exports.getCategories = async (req, res) => {
   }
 };
 
-exports.categoryCreate = async (res, req) => {
+exports.categoryCreate = async (req, res) => {
   try {
     const newCategory = await Category.create(req.body);
     return res.status(201).json(newCategory);
   } catch (error) {
-    return res.status(500).json({ message: "Error" });
+    return res.status(500).json({ message: error.message });
   }
 };
 
