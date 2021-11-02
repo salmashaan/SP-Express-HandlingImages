@@ -43,7 +43,8 @@ exports.productUpdate = async (req, res, next) => {
       }`;
     }
     await req.product.update(req.body);
-    res.status(204).end();
+    const updatedProduct = await Product.findById(req.product._id);
+    res.status(200).json(updatedProduct);
   } catch (error) {
     next(error);
   }
