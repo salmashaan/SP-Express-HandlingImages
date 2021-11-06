@@ -9,15 +9,18 @@ const errorHandler = require("./middleware/errorHandler");
 const path = require("path");
 const cors = require("cors");
 const passport = require("passport");
-const { localStrategy } = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
 const app = express();
 
 connectDB();
 
-// Middleware
+// Passport
 app.use(passport.initialize());
 passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));

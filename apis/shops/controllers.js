@@ -10,8 +10,22 @@ exports.getShops = async (req, res) => {
   }
 };
 
-exports.shopCreate = async (req, res) => {
+exports.fetchShop = async (shopId, next) => {
   try {
+    const shop = await Shop.findById(shopId);
+    return shop;
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.shopCreate = async (req, res) => {
+  console.log(req.user);
+  try {
+    if (req.file) {
+      req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
+    }
+    req.body.owner = req.user._id;
     const newShop = await Shop.create(req.body);
     return res.status(201).json(newShop);
   } catch (error) {
@@ -19,8 +33,17 @@ exports.shopCreate = async (req, res) => {
   }
 };
 
+//req.user => from passport jwt
+//req.shop => from param middleware
 exports.productCreate = async (req, res, next) => {
+  // check if the signed in user is the owner of this shop:
+  console.log(req.shop._id);
   try {
+    if (req.user._id.toString() !== req.shop.owner._id.toString())
+      return next({
+        status: 401,
+        message: "You're not the owner!",
+      });
     if (req.file) {
       req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
     }
